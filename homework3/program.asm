@@ -11,7 +11,7 @@ odd_elements:	.asciz	"number of odd elements: "
 ln:	.asciz 	"\n"
 .align  2                       # Выравнивание на границу слова
 n:	.word	0		# Число введенных элементов массива
-array:  .space  40              # 64 байта
+array:  .space  40              
 arrayend:
 .text
 in:
