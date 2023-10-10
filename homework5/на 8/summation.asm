@@ -1,10 +1,12 @@
+.include "macrolib.s"
+
 .global summArray
 .text
 
 summArray:
 	push(ra)
-	mv	t3 a1		# Число элементов массива
-        mv	t0, a0	
+	mv	t3 a0		# Число элементов массива
+        mv	t0, a1	
         li	t6 0 		#сумма
         li	t5 0		# разница между суммой и границей
         li	t4 0		# счетчик просуммированных значений
@@ -28,13 +30,9 @@ summArray:
 		bge 	t1, t5, end_check	# если элемент меньше или равен разнице до макс числа выходим из проверок
 		
 		over_message:
-		la 	a0, overflow_error       # выводим сообщение об ошибке и выходим из цикла
-	        li 	a7, 4           
-	        ecall
-	        la 	a0, last       
-	        li 	a7, 4           
-	        ecall
-	        jal	even_count_process		# я не хочу делать спагетти-монстра из этого цикла поэтому четные числа считаем в отдельном цикле 
+		print_str ("overflow occured!\n")
+	        print_str ("last correct summ: ")
+	        jal	end		 
 	        
 		end_check:
 		
@@ -43,8 +41,14 @@ summArray:
 		addi    t0 t0 4         
 	        addi    t3 t3 -1        
 	        bnez    t3 summ_proces 
-
+	
+	print_str("Summ: ")
+	end:
+	print_int(t6)
+	print_str("\nNumber os elements summed: ")
+	print_int(t4)
 	pop(s2)
 	pop(s1)
 	pop(ra)
+	ret
 	

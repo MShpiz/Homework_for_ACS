@@ -1,3 +1,5 @@
+.include "macrolib.s"
+
 .global fillArray
 .text
 fillArray:
