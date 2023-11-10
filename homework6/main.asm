@@ -20,17 +20,73 @@ main:
     ecall
     
     # getting lenght of copy
-    print_str("Enter lenght of copy")
+    print_str("Enter lenght of copy ")
     read_int(t0)
     
     # copying string to copy
     la      a0 copy
     la      a1 buf 
     mv	    a2 t0
-    jal     ctrncpy
-    print_str(a0)
+    jal     strncpy
+    print_str_r(a0)
+    newline
     
     # other tests
+    # copying string to copy
+    la      a0 copy
+    la      a1 empty_test_str
+    li	    a2 5
+    jal     strncpy
+    print_str_r(a0)
+    newline
     
-    # Завершение программы
+    la      a0 copy
+    la      a1 short_test_str 
+    li	    a2 0
+    jal     strncpy
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy
+    la      a1 short_test_str 
+    li	    a2 20
+    jal     strncpy
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy
+    la      a1 empty_test_str
+    li	    a2 50
+    jal     strncpy
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy
+    la      a1 short_test_str 
+    li	    a2 5
+    jal     strncpy
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy
+    la      a1 empty_test_str
+    li	    a2 5
+    jal     strncpy
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy
+    la      a1 long_test_str 
+    li	    a2 50
+    jal     strncpy
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy
+    la      a1 long_test_str 
+    li	    a2 110
+    jal     strncpy
+    print_str_r(a0)
+    newline
+
     exit

@@ -39,6 +39,15 @@ str:
    pop	(a0)
    .end_macro
 
+.macro print_str_r (%x)
+   .text
+   push (a0)
+   li a7, 4
+   mv a0, %x
+   ecall
+   pop	(a0)
+   .end_macro
+   
    .macro print_char(%x)
    li a7, 11
    li a0, %x
