@@ -10,6 +10,7 @@ copy3:	.space BUF_SIZE
 copy4:	.space BUF_SIZE
 copy5:	.space BUF_SIZE
 copy6:	.space BUF_SIZE
+copy7:	.space BUF_SIZE
 empty_test_str: .asciz ""   # empty string
 short_test_str: .asciz "Hello world!"     # short string 
 long_test_str:  .asciz "This is a very loooooooooooong string, which is supposed to be longer than one hundred and one characters." # long string
