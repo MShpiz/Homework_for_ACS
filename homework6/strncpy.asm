@@ -15,8 +15,8 @@ strncpy:
 	mv	s1 t0
 	
 	zero_check:
-	bgez	s1, loop		# if count less than zero, change to zero
-	li	s1 0
+	blez	s1, endcpy		# if count less than zero, finish copy
+
 	
 	loop:
 		lb	t1 (s0)
