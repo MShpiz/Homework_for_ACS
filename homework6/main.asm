@@ -88,5 +88,13 @@ main:
     print_str("Result: ")
     print_str_r(a0)
     newline
+    
+    la      a0 copy7
+    la      a1 long_test_str 
+    li	    a2 -1
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
 
     exit
