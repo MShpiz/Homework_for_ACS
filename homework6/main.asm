@@ -11,6 +11,15 @@ copy4:	.space BUF_SIZE
 copy5:	.space BUF_SIZE
 copy6:	.space BUF_SIZE
 copy7:	.space BUF_SIZE
+
+copy1m:	.space BUF_SIZE
+copy2m:	.space BUF_SIZE
+copy3m:	.space BUF_SIZE
+copy4m:	.space BUF_SIZE
+copy5m:	.space BUF_SIZE
+copy6m:	.space BUF_SIZE
+copy7m:	.space BUF_SIZE
+
 empty_test_str: .asciz ""   # empty string
 short_test_str: .asciz "Hello world!"     # short string 
 long_test_str:  .asciz "This is a very loooooooooooong string, which is supposed to be longer than one hundred and one characters." # long string
@@ -91,6 +100,65 @@ main:
     newline
     
     la      a0 copy7
+    la      a1 long_test_str 
+    li	    a2 -1
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    print_str("Macros tests: \n")
+    
+    la      a0 copy1m
+    la      a1 empty_test_str
+    li	    a2 5
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy2m
+    la      a1 short_test_str 
+    li	    a2 0
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy3m
+    la      a1 short_test_str 
+    li	    a2 20
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy4m
+    la      a1 short_test_str 
+    li	    a2 5
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    
+    la      a0 copy5m
+    la      a1 long_test_str 
+    li	    a2 50
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy6m
+    la      a1 long_test_str 
+    li	    a2 110
+    jal     strncpy
+    print_str("Result: ")
+    print_str_r(a0)
+    newline
+    
+    la      a0 copy7m
     la      a1 long_test_str 
     li	    a2 -1
     jal     strncpy

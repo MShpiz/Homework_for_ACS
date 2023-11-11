@@ -118,3 +118,45 @@ str:
 	fld	%x, (sp)
 	addi	sp, sp, 8
 .end_macro
+
+.macro	strncpy (%cpy, %str, %cnt)
+	push(s0)
+	push(s1)
+	push(s2)
+	push(%cpy)
+	mv	s2 %cpy			# copy buf
+	mv	s0 %str			#string
+	mv	s1 %cnt			# count
+	
+	li t0 102
+	ble	s1 t0 zero_check		# if count is bigger than buffer size, change to buffer size
+	mv	s1 t0
+	
+	zero_check:
+	blez	s1, endcpy		# if count less than zero, finish copy
+
+	
+	loop:
+		lb	t1 (s0)
+		sb	t1 (s2)			# copy symbol from first string to second
+		addi	s0, s0, 1			# move positions in string and make number of characters to copy less
+		addi	s1, s1, -1
+		addi	s2, s2, 1
+		beqz	s1, filler
+		bnez 	t1, loop
+	filler:
+		blez	s1, endcpy
+		li	t1, 0
+		sb	t1 (t6)			# fill whats left with 0 characters
+					# move positions in string and make number of characters to fill less
+		addi	s1, s1, -1
+		addi	s2 s2 1
+		b	filler
+
+	endcpy:
+	
+	pop(a0)
+	pop(s2)
+	pop(s1)
+	pop(s0)
+.end_macro
