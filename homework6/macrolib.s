@@ -124,9 +124,13 @@ str:
 	push(s1)
 	push(s2)
 	push(%cpy)
-	mv	s2 %cpy			# copy buf
-	mv	s0 %str			#string
-	mv	s1 %cnt			# count
+	
+	push(%cpy)
+	push(%str)
+	push(%cnt)
+	pop(s1)
+	pop(s0)
+	pop(s2)
 	
 	li t0 102
 	ble	s1 t0 zero_check		# if count is bigger than buffer size, change to buffer size
