@@ -9,7 +9,7 @@ ble	a0 t0 after_dot
 li	t1	1 # mark need of dot
 rem	a0 a0 t0	# needed digit
 after_dot:
-nul:
+nul:			# assign display code for the digit
 li	t0 0
 bne	a0 t0 one
 li	t2 0x3f
@@ -88,18 +88,18 @@ fifteen:
 li	t2 0x71
 j after_number
 
-after_number:
+after_number:			# if dot is needed add its code
 beqz	t1, after_add_dot
 addi	t2, t2 0x80
 
-after_add_dot:
+after_add_dot:		# displaying digits
 lui     t6 0xffff0          # MMIO
-beqz	a1 left
+beqz	a1 left		# if a1 == 0 right indicator, else left indicator
 right:
 sb      t2 0x10(t6)
 j end_func
 left:
 sb      t2 0x11(t6)
-end_func:
+end_func:		# the end.
 pop(ra)
 ret
