@@ -7,11 +7,11 @@
 
 const unsigned int vecSize = 10000000;
 
-const int threadNumber = 4; // Количество потоков
+const int threadNumber = 4; // РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС‚РѕРєРѕРІ
 
-//стартовая функция для дочерних потоков
-void* func(void *param) {    //вычисление произведения элементов вектора
-    unsigned int shift = vecSize / threadNumber; // Смещение в потоке для начала массива
+//СЃС‚Р°СЂС‚РѕРІР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РґРѕС‡РµСЂРЅРёС… РїРѕС‚РѕРєРѕРІ
+void* func(void *param) {    //РІС‹С‡РёСЃР»РµРЅРёРµ РїСЂРѕРёР·РІРµРґРµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ РІРµРєС‚РѕСЂР°
+    unsigned int shift = vecSize / threadNumber; // РЎРјРµС‰РµРЅРёРµ РІ РїРѕС‚РѕРєРµ РґР»СЏ РЅР°С‡Р°Р»Р° РјР°СЃСЃРёРІР°
     unsigned int p = (*(unsigned int*)param )*shift;
     double *prod = new double(0);
     for(unsigned int i = p ; i < p+shift ; i++) {
@@ -20,66 +20,66 @@ void* func(void *param) {    //вычисление произведения элементов вектора
     return (void*)prod ;
 }
 
-// подпрограмма запускающая 4 потока
+// РїРѕРґРїСЂРѕРіСЂР°РјРјР° Р·Р°РїСѓСЃРєР°СЋС‰Р°СЏ 4 РїРѕС‚РѕРєР°
 void withThreads() {
-    double rez = 0.0 ; //для записи окончательного результата
+    double rez = 0.0 ; //РґР»СЏ Р·Р°РїРёСЃРё РѕРєРѕРЅС‡Р°С‚РµР»СЊРЅРѕРіРѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°
 
-    pthread_t thread[threadNumber]; // массив тредов
+    pthread_t thread[threadNumber]; // РјР°СЃСЃРёРІ С‚СЂРµРґРѕРІ
     
-    unsigned int A [threadNumber];  // массив с номерами тредов
+    unsigned int A [threadNumber];  // РјР°СЃСЃРёРІ СЃ РЅРѕРјРµСЂР°РјРё С‚СЂРµРґРѕРІ
     
     for(int i = 0; i < threadNumber; ++i) {
         A[i] = i;
     }
     
-    clock_t start_time =  clock(); // начальное время
+    clock_t start_time =  clock(); // РЅР°С‡Р°Р»СЊРЅРѕРµ РІСЂРµРјСЏ
     
-    //создание четырех дочерних потоков
+    //СЃРѕР·РґР°РЅРёРµ С‡РµС‚С‹СЂРµС… РґРѕС‡РµСЂРЅРёС… РїРѕС‚РѕРєРѕРІ
     for (int i=0 ; i<threadNumber ; i++) {
 
         pthread_create(&thread[i], nullptr, func, (void*)(A+i));
     }
     
     double *sum;
-    for (int i = 0 ; i < threadNumber; i++) {    //ожидание завершения работы дочерних потоков
-        pthread_join(thread[i],(void **)&sum) ;  //и получение результата их вычислений
+    for (int i = 0 ; i < threadNumber; i++) {    //РѕР¶РёРґР°РЅРёРµ Р·Р°РІРµСЂС€РµРЅРёСЏ СЂР°Р±РѕС‚С‹ РґРѕС‡РµСЂРЅРёС… РїРѕС‚РѕРєРѕРІ
+        pthread_join(thread[i],(void **)&sum) ;  //Рё РїРѕР»СѓС‡РµРЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚Р° РёС… РІС‹С‡РёСЃР»РµРЅРёР№
         rez += *sum ;
         delete sum ;
     }
 
-    clock_t end_time = clock(); // конечное время
+    clock_t end_time = clock(); // РєРѕРЅРµС‡РЅРѕРµ РІСЂРµРјСЏ
     
-    //вывод результата
-    std::cout << "Векторное произведение = " << 
+    //РІС‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р°
+    std::cout << "Р’РµРєС‚РѕСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ = " << 
         std::setprecision(40) << rez << "\n" ;
 
-    std::cout << "Время счета и сборки = " << end_time - start_time << "\n";
+    std::cout << "Р’СЂРµРјСЏ СЃС‡РµС‚Р° Рё СЃР±РѕСЂРєРё = " << end_time - start_time << "\n";
 }
 
-// выполнение задачи без потоков
+// РІС‹РїРѕР»РЅРµРЅРёРµ Р·Р°РґР°С‡Рё Р±РµР· РїРѕС‚РѕРєРѕРІ
 void withoutThreads() {
-    double rez = 0.0 ; //для записи окончательного результата
+    double rez = 0.0 ; //РґР»СЏ Р·Р°РїРёСЃРё РѕРєРѕРЅС‡Р°С‚РµР»СЊРЅРѕРіРѕ СЂРµР·СѓР»СЊС‚Р°С‚Р°
     
-    clock_t start_time =  clock(); // начальное время
+    clock_t start_time =  clock(); // РЅР°С‡Р°Р»СЊРЅРѕРµ РІСЂРµРјСЏ
     
-    unsigned int i;             // считаем произведения
+    unsigned int i;             // СЃС‡РёС‚Р°РµРј РїСЂРѕРёР·РІРµРґРµРЅРёСЏ
     for( i = 0 ; i < vecSize; i++) {
         rez += ((double)(i)+1)*(vecSize - i);
     }
 
-    clock_t end_time = clock(); // конечное время
+    clock_t end_time = clock(); // РєРѕРЅРµС‡РЅРѕРµ РІСЂРµРјСЏ
     
-    //вывод результата
-    std::cout << "Векторное произведение = " << 
+    //РІС‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р°
+    std::cout << "Р’РµРєС‚РѕСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ = " << 
         std::setprecision(40) << rez << "\n" ;
 
-    std::cout << "Время счета = " << end_time - start_time << "\n";
+    std::cout << "Р’СЂРµРјСЏ СЃС‡РµС‚Р° = " << end_time - start_time << "\n";
 }
 
 int main() {
-    std::cout << "Запускаем программу с 4 потоками" << std::endl;
+    std::cout << "Р—Р°РїСѓСЃРєР°РµРј РїСЂРѕРіСЂР°РјРјСѓ СЃ 4 РїРѕС‚РѕРєР°РјРё" << std::endl;
     withThreads();
-    std::cout << " \n\n\n Запускаем программу с 1 потоком" << std::endl;
+    std::cout << " \n\n\n Р—Р°РїСѓСЃРєР°РµРј РїСЂРѕРіСЂР°РјРјСѓ СЃ 1 РїРѕС‚РѕРєРѕРј" << std::endl;
     withoutThreads();
     
     return 0;
