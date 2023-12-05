@@ -15,7 +15,7 @@ void* func(void *param) {    //вычисление произведения э�
     unsigned int p = (*(unsigned int*)param )*shift;
     double *prod = new double(0);
     for(unsigned int i = p ; i < p+shift ; i++) {
-        *prod+= ((double)(i)+1)*(vecSize - i);
+        *prod+= ((double)(i)+1)*((double)(vecSize - i));
     }
     return (void*)prod ;
 }
@@ -64,7 +64,7 @@ void withoutThreads() {
     
     unsigned int i;             // считаем произведения
     for( i = 0 ; i < vecSize; i++) {
-        rez += ((double)(i)+1)*(vecSize - i);
+        rez += ((double)(i)+1)*((double)(vecSize - i));
     }
 
     clock_t end_time = clock(); // конечное время
